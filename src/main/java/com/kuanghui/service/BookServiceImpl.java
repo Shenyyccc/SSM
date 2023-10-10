@@ -18,6 +18,7 @@ public class BookServiceImpl implements BookService{
 
     public void setBookMapper(BookMapper bookMapper) {
         this.bookMapper = bookMapper;
+        System.out.println("hahah");
     }
 
     @Override
