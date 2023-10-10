@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=一个绑定的Dao/Mapper接口-->
+<mapper namespace="com.kuanghui.mapper.BookMapper">
+
+    <insert id="addBook" parameterType="book">
+        insert into ssm.book(Id, bookName, bookCounts, detail)
+        VALUES (#{Id},#{bookName},#{bookCounts},#{detail});
+    </insert>
+
+    <delete id="deleteBookByID" parameterType="int">
+        delete from ssm.book where Id=#{Id}
+    </delete>
+
+    <update id="updateBook" parameterType="book">
+        update ssm.book
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bookName!=null">
+                bookName=#{bookName},
+            </if>
+            <if test="bookCounts!=null">
+                bookCounts=#{bookCounts},
+            </if>
+            <if test="detail!=null">
+                detail=#{detail},
+            </if>
+        </trim>
+        where Id=#{Id};
+    </update>
+
+    <select id="queryBookByname" parameterType="string" resultType="book">
+        select * from ssm.book where bookName=#{bookName};
+    </select>
+
+    <select id="queryAllBooks" resultType="book">
+        select * from ssm.book;
+    </select>
+
+</mapper>

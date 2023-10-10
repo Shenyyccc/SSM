@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--XML 配置文件中包含了对 MyBatis 系统的核心设置-->
+<configuration>
+    <!--Mybatis原本要配置数据源的，但是和Spring整合后，这件事情交给spring去做了    -->
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    
+    <typeAliases>
+        <package name="com.kuanghui.pojo"/>
+    </typeAliases>
+    
+    <mappers>
+        <package name="com.kuanghui.mapper"/>
+    </mappers>
+
+
+
+</configuration>

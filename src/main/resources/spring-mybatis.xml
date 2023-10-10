@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--1.关联数据库配置文件
+    local-override="true"用于Access denied for user 'Lenovo'@'localhost' (using password: YES)报错-->
+    <context:property-placeholder location="classpath:database.properties" local-override="true"/>
+
+    <!--2.连接池
+        bbcp:半自动化操作，不能自动连接
+        c3p0：自动化操作（自动化的加载配置文件，并且可以自动自动设置到对象中）
+        druid:
+        -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driver}"/>
+        <property name="jdbcUrl" value="${url}"/>
+        <property name="user" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <!--3.sqlSessionFactory-->
+    <!--sqlSessionFactory这个bean替换MybatisUtil里的sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--绑定MyBatis配置文件  -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <!--4.之前是通过实现BookMapperImpl去实现，注入SqlsessionTemplate或者继承SqlSessionDaoSupport
+        现在配置dao扫描包，动态实现了Dao接口可以注入到Spring容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--也可以使用sqlSessionTemplateBeanName,同理，具体看MapperScannerConfigurer方法和属性、
+            sqlSessionFactoryBeanName内传入的值为String，所以使用value-->
+        <!--注入sqlSessionFactory-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--要扫描的包-->
+        <property name="basePackage" value="com.kuanghui.mapper"/>
+    </bean>
+
+
+
+</beans>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iframe测试体验页面无刷新</title>
+  <script>
+    function go(){
+      $.post({
+        url:"${pageContext.request.contextPath}/a1",
+        data:{"name":${"#url"}.val}{
+        success:function(data){
+          alter(data);
+        }
+      }
+      })
+    }
+  </script>
+</head>
+<body>
+<div>
+  用户名:<input type="text" id="url" onblur="go()"/>
+</div>
+</body>
+</html>
